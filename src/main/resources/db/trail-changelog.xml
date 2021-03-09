@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+    http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+	
+	<changeSet id="1" author="ashtech">
+		<preConditions onFail="MARK_RAN">
+			<not>
+				<tableExists tableName="trail"/>
+			</not>
+		</preConditions>
+		<createTable tableName="trail">
+	        <column name="ID" type="int" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="NAME" type="varchar(50)">
+             	<constraints nullable="false"/>
+            </column>
+            <column name="LOCATION" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="LENGTH" type="varchar(4)">
+                <constraints nullable="false"/>
+            </column>	
+            <column name="LEVEL" type="varchar(2)">
+                <constraints nullable="false"/>
+            </column>	
+            <column name="DECRIPTION" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>	
+		</createTable>
+	</changeSet>
+	<changeSet id="2" author="ashtech">
+    	<createIndex indexName="IDX_NAME"  
+	            schemaName="trek"  
+	            tableName="trail"   
+	            unique="true">  
+	        <column  name="NAME"/>
+    	</createIndex> 		
+	</changeSet>
+
+</databaseChangeLog>
