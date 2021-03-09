@@ -24,12 +24,15 @@
             <column name="LENGTH" type="varchar(4)">
                 <constraints nullable="false"/>
             </column>	
-            <column name="LEVEL" type="varchar(2)">
+            <column name="LEVEL" type="varchar(10)">
                 <constraints nullable="false"/>
             </column>	
             <column name="DECRIPTION" type="varchar(255)">
                 <constraints nullable="false"/>
-            </column>	
+            </column>
+            <column name="STATUS" type="varchar(2)">
+                <constraints nullable="false"/>
+            </column>
 		</createTable>
 	</changeSet>
 	<changeSet id="2" author="ashtech">
