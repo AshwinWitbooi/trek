@@ -6,7 +6,7 @@
     http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 	
 	<changeSet id="1" author="ashtech">
-		<preConditions onFail="MARK_RAN">
+		<preConditions onFail="CONTINUE">
 			<not>
 				<tableExists tableName="trail"/>
 			</not>
@@ -16,7 +16,7 @@
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="NAME" type="varchar(50)">
-             	<constraints nullable="false"/>
+             	<constraints unique="true"  nullable="false"/>
             </column>
             <column name="LOCATION" type="varchar(50)">
                 <constraints nullable="false"/>
@@ -35,13 +35,4 @@
             </column>
 		</createTable>
 	</changeSet>
-	<changeSet id="2" author="ashtech">
-    	<createIndex indexName="IDX_NAME"  
-	            schemaName="trek"  
-	            tableName="trail"   
-	            unique="true">  
-	        <column  name="NAME"/>
-    	</createIndex> 		
-	</changeSet>
-
 </databaseChangeLog>
