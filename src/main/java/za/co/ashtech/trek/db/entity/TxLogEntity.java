@@ -1,0 +1,76 @@
+package za.co.ashtech.trek.db.entity;
+
+import java.io.Serializable;
+import javax.persistence.*;
+import java.sql.Timestamp;
+
+
+/**
+ * The persistent class for the tx_log database table.
+ * 
+ */
+@Entity
+@Table(name="tx_log")
+@NamedQuery(name="TxLogEntity.findAll", query="SELECT t FROM TxLogEntity t")
+public class TxLogEntity implements Serializable {
+	private static final long serialVersionUID = 1L;
+
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private int id;
+
+	private String action;
+
+	@Column(name="ACTION_DATE")
+	private Timestamp actionDate;
+
+
+	@Column(name="ACTION_RESULT")
+	private String actionResult;
+
+	@Column(name="USERNAME")
+	private String username;
+
+	public TxLogEntity() {
+	}
+
+	public int getId() {
+		return this.id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getAction() {
+		return this.action;
+	}
+
+	public void setAction(String action) {
+		this.action = action;
+	}
+
+	public Timestamp getActionDate() {
+		return this.actionDate;
+	}
+
+	public void setActionDate(Timestamp actionDate) {
+		this.actionDate = actionDate;
+	}
+
+	public String getActionResult() {
+		return this.actionResult;
+	}
+
+	public void setActionResult(String actionResult) {
+		this.actionResult = actionResult;
+	}
+	public String getUsername() {
+		return this.username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+}
