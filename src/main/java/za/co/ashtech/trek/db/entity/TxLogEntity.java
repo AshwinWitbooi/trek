@@ -2,7 +2,7 @@ package za.co.ashtech.trek.db.entity;
 
 import java.io.Serializable;
 import javax.persistence.*;
-import java.sql.Timestamp;
+import java.util.Date;
 
 
 /**
@@ -22,7 +22,7 @@ public class TxLogEntity implements Serializable {
 	private String action;
 
 	@Column(name="ACTION_DATE")
-	private Timestamp actionDate;
+	private Date actionDate;
 
 
 	@Column(name="ACTION_RESULT")
@@ -50,11 +50,11 @@ public class TxLogEntity implements Serializable {
 		this.action = action;
 	}
 
-	public Timestamp getActionDate() {
+	public Date getActionDate() {
 		return this.actionDate;
 	}
 
-	public void setActionDate(Timestamp actionDate) {
+	public void setActionDate(Date actionDate) {
 		this.actionDate = actionDate;
 	}
 
