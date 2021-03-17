@@ -23,7 +23,7 @@ pipeline {
 		}
 		stage('Test') {
         	steps {
-	            bat 'mvn -Dtest=TrekApplicationTest test'
+	            bat 'mvn -Dtest=TrekApplicationTests test'
 	        }
         }
 		stage('Package') {
