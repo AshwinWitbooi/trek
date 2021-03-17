@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import za.co.ashtech.trek.db.entity.TrailEntity;
 
 @Repository
-public interface TrekDBRepository extends CrudRepository<TrailEntity, Long> {
+public interface TrailDBRepository extends CrudRepository<TrailEntity, Long> {
 	public TrailEntity findByName(String name);
 }

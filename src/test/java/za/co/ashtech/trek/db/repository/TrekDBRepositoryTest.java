@@ -19,7 +19,7 @@ import za.co.ashtech.trek.util.TestDataUtil;
  class TrekDBRepositoryTest {
 	
 	@Autowired
-	TrekDBRepository trekDBRepository;
+	TrailDBRepository trekDBRepository;
 	static String trailName = null;
 	
 	@BeforeAll
