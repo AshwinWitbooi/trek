@@ -1,5 +1,9 @@
 pipeline {
 	agent any
+	environment {
+        APP = 'booklog'
+		DB_HOST = '192.168.1.66'
+    }
     tools {
         maven 'Maven_3.6.3'
         jdk 'JDK8'
@@ -10,18 +14,18 @@ pipeline {
 	            bat 'mvn clean compile'
 	        }
         }
-//		stage('SonarQube analysis') {
-//			steps {
-//				withSonarQubeEnv('SonarQube') {
-//				  bat 'C:/Users/Ashwin/dev_tools/sonar-scanner-4.6.0.2311-windows/bin/sonar-scanner'
-//				} 
-//			}
-//		}
-//		stage('Test') {
-//        	steps {
-//	            bat 'mvn -Dtest=BookLogIntegrationTest test'
-//	        }
-//        }
+		stage('SonarQube analysis') {
+			steps {
+				withSonarQubeEnv('SonarQube') {
+				  bat 'C:/Users/Ashwin/dev_tools/sonar-scanner-4.6.0.2311-windows/bin/sonar-scanner'
+				} 
+			}
+		}
+		stage('Test') {
+        	steps {
+	            bat 'mvn -Dtest=TrekApplicationTest test'
+	        }
+        }
 		stage('Package') {
         	steps {
 	            bat 'mvn package -DskipTests=true'
