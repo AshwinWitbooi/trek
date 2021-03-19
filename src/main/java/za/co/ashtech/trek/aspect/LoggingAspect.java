@@ -43,13 +43,10 @@ public class LoggingAspect {
 											
 			ObjectMapper objectMapper = new ObjectMapper();
 
-			if(httpMethod != null) {
-				if(httpMethod.equalsIgnoreCase("POST")) {
-					Object body = joinPoint.getArgs()[0];
-					
-					logger.info("REQUEST: "+objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(body));			
-				}
-			
+			if(httpMethod != null && httpMethod.equalsIgnoreCase("POST")) {
+				Object body = joinPoint.getArgs()[0];
+				
+				logger.info("REQUEST: "+objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(body));			
 			}
 			
 			response = joinPoint.proceed();	

@@ -5,6 +5,10 @@ import za.co.ashtech.trek.model.Trail;
 
 public class TrekUtil {
 	
+	private TrekUtil() {
+		
+	}
+	
 	public static Trail trailEntityTyModel(TrailEntity entity) {
 		Trail trail = new Trail();
 		

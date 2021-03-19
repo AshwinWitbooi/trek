@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class TestDataUtil {
 	
+	private TestDataUtil() {}
 	
 	public static String getTrailname() {
 		return RandomStringUtils.randomAlphabetic(8)+" Trail";

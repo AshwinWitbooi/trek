@@ -30,10 +30,14 @@ public class ManifestInfo {
 			Manifest manifest = new Manifest(url.openStream());
 			Attributes attributes = manifest.getMainAttributes();
 			
-			ArrayList<Entry<Object, Object>> attributeList = new ArrayList<>(attributes.entrySet());
-			
-			for(Entry<Object, Object> entry: attributeList) {
-				manifestAttributes.put(entry.getKey().toString(), entry.getValue().toString());
+			if(attributes.containsKey("App-Version")) {
+				ArrayList<Entry<Object, Object>> attributeList = new ArrayList<>(attributes.entrySet());
+				
+				for(Entry<Object, Object> entry: attributeList) {
+					manifestAttributes.put(entry.getKey().toString(), entry.getValue().toString());
+				}				
+			}else {
+				manifestAttributes.put("Scope", "Local Machine");
 			}
 			
 		} catch (IOException e) {

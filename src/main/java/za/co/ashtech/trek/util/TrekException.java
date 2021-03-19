@@ -6,14 +6,18 @@ import za.co.ashtech.trek.model.ApiError;
 public class TrekException extends Exception {
 
 	private static final long serialVersionUID = 1L;
-	String errorCode;
-	String description;
-	private ApiError error;
-	private HttpStatus httpStatus;
+	final String errorCode;
+	final String description;
+	private final  ApiError error;
+	private final HttpStatus httpStatus;
 	
 	
 	public TrekException() {
 		super();
+		this.description="Error occurred contact administrator";
+		this.errorCode="ER01";
+		this.error=new ApiError(null,null);
+		this.httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
 	}
 	
 	

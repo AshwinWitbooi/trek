@@ -32,4 +32,10 @@ public class TrekServiceImpl implements TrekService {
 		}
 	}
 
+	@Override
+	public List<Trail> searchTrail() throws TrekException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
