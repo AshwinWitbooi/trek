@@ -1,7 +1,7 @@
 pipeline {
 	agent any
 	environment {
-        APP = 'booklog'
+        APP = 'trek'
 		DB_HOST = '192.168.1.66'
     }
     tools {
@@ -63,8 +63,7 @@ pipeline {
         }
 		stage('Run Container') {
         	steps {
-	            //bat 'docker run -e DB_HOST=%DB_HOST% -v C:/Users/Ashwin/dev_tools/app_logs/prod:/var/app_logs/booklog -d --name %APP%  -p 8080:8080 -t %APP%'
-				bat 'docker run -e DB_HOST=%DB_HOST% -d --name %APP%  -p 8080:8080 -t %APP%'
+	            bat 'docker run -e DB_HOST=%DB_HOST% -v C:/Users/Ashwin/dev_tools/app_logs/prod:/var/app_logs/trek -d --name %APP%  -p 8080:8080 -t %APP%'
 	        }
         }
     }
