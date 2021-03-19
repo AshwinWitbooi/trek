@@ -2,6 +2,8 @@ package za.co.ashtech.trek.db.repository;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import java.util.List;
+
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.MethodOrderer;
@@ -34,7 +36,7 @@ import za.co.ashtech.trek.util.TestDataUtil;
 	
 	@Test
 	@Order(1) 
-	void getTrailTest() throws Exception{		
+	void getRandomTrailTest() throws Exception{		
 		TrailEntity te = new TrailEntity();
 		te.setDecription("decription");
 		te.setLength("5KM");
@@ -47,5 +49,12 @@ import za.co.ashtech.trek.util.TestDataUtil;
 		
 		assertNotNull(trekDBRepository.findByName(trailName));
 	}
+	
+	@Test
+	@Order(2) 
+	void getTrailsByLocationTest() throws Exception{
+		assertNotNull(trekDBRepository.findByLocation("Bellville"));
+	}
+
 	
 }
