@@ -5,11 +5,16 @@
  */
 package za.co.ashtech.trek.controller;
 
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -35,6 +40,23 @@ public interface TrekApi {
         produces = { "application/json" }, 
         method = RequestMethod.GET)
     ResponseEntity<Trail> getRandomTrail() throws TrekException;
+    
+    @Operation(summary = "returns an array hiking trails for location", description = "By invoking this API an array of hiking trails will be returned for the search location ", tags={  })
+    @ApiResponses(value = { 
+        @ApiResponse(responseCode = "200", description = "array of hiking trails will be returned for the search location", content = @Content(array = @ArraySchema(schema = @Schema(implementation = Trail.class)))),
+        
+        @ApiResponse(responseCode = "400", description = "bad input parameter"),
+        
+        @ApiResponse(responseCode = "401", description = "authentication failed"),
+        
+        @ApiResponse(responseCode = "404", description = "item not found."),
+        
+        @ApiResponse(responseCode = "500", description = "error processing request") })
+    @RequestMapping(value = "/v1/trail/{location}",
+        produces = { "application/json" }, 
+        method = RequestMethod.GET)
+    ResponseEntity<List<Trail>> searchTrails(@Parameter(in = ParameterIn.PATH, description = "location to search hiking trails for", required=true, schema=@Schema()) @PathVariable("location") String location) throws TrekException;
+
 
 }
 
