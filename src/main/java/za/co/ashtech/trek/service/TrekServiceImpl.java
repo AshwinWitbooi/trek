@@ -40,7 +40,7 @@ public class TrekServiceImpl implements TrekService {
 			
 			List<TrailEntity> te = dbRepository.findByLocation(location);
 			
-			if(te != null) {
+			if(te != null && !te.isEmpty()) {
 				trails = new ArrayList<Trail>();
 				
 				for(TrailEntity i:te) {
@@ -53,7 +53,9 @@ public class TrekServiceImpl implements TrekService {
 				throw new TrekException(CONSTANTS.ERC003, CONSTANTS.ERC003_DESC, HttpStatus.BAD_REQUEST);
 			}
 			
-		} catch (Exception e) {
+		} catch (TrekException e) {
+			throw e;
+		}catch (Exception e) {
 			throw new TrekException(CONSTANTS.ERC003, "Error retrieving hike trails for location",HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
