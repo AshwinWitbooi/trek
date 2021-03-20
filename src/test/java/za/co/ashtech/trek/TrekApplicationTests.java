@@ -21,8 +21,8 @@ import org.springframework.web.context.WebApplicationContext;
 @WebAppConfiguration
 class TrekApplicationTests {
 	
-	private static final String testUsername ="test_user";
-	private static final String testPassword ="test_user";
+//	private static final String testUsername ="test_user";
+//	private static final String testPassword ="test_user";
 	@Autowired
 	private WebApplicationContext context;
 	private MockMvc mvc;
