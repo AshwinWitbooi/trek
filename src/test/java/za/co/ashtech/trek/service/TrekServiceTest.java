@@ -23,8 +23,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 	
 	@Test
 	@Order(1) 
-	void getTrailTest() throws Exception{				
+	void getRandomTrailTest() throws Exception{				
 		assertNotNull(service.getRandomHikeTrail());
+	}
+	
+	@Test
+	@Order(2) 
+	void getLocationTrailsTest() throws Exception{				
+		assertNotNull(service.searchTrail("Bellville"));
 	}
 	
 }

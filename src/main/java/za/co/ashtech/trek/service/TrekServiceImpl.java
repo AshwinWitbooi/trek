@@ -1,5 +1,6 @@
 package za.co.ashtech.trek.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.collections4.IteratorUtils;
 import org.apache.commons.lang3.RandomUtils;
@@ -33,9 +34,28 @@ public class TrekServiceImpl implements TrekService {
 	}
 
 	@Override
-	public List<Trail> searchTrail() throws TrekException {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Trail> searchTrail(String location) throws TrekException {
+		List<Trail> trails = null;
+		try {
+			
+			List<TrailEntity> te = dbRepository.findByLocation(location);
+			
+			if(te != null) {
+				trails = new ArrayList<Trail>();
+				
+				for(TrailEntity i:te) {
+					trails.add(TrekUtil.trailEntityTyModel(i));
+				}
+				
+				return trails;
+				
+			}else {
+				throw new TrekException(CONSTANTS.ERC003, CONSTANTS.ERC003_DESC, HttpStatus.BAD_REQUEST);
+			}
+			
+		} catch (Exception e) {
+			throw new TrekException(CONSTANTS.ERC003, "Error retrieving hike trails for location",HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 
 }

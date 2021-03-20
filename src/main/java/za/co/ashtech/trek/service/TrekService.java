@@ -8,5 +8,5 @@ import za.co.ashtech.trek.util.TrekException;
 public interface TrekService {
 
 	public Trail getRandomHikeTrail() throws TrekException;
-	public List<Trail> searchTrail() throws TrekException;
+	public List<Trail> searchTrail(String location) throws TrekException;
 }
