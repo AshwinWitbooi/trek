@@ -48,5 +48,17 @@ class TrekApplicationTests {
 		           .accept(MediaType.APPLICATION_JSON))
 		           .andExpect(status().isOk()));
 	}
+	
+	@Test
+	@Order(2)
+	/* only applicable for security tests */
+//	@WithMockUser(username = "test_user", password = "test_user")
+	void getSearchHikeTrailTest() throws Exception {
+		
+		assertNotNull(mvc.perform(get("/v1/trail/Bellville")
+		           .contentType(MediaType.APPLICATION_JSON)
+		           .accept(MediaType.APPLICATION_JSON))
+		           .andExpect(status().isOk()));
+	}
 
 }
