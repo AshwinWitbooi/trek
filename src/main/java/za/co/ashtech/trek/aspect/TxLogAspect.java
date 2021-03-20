@@ -78,6 +78,8 @@ public class TxLogAspect {
 		switch(methodSignature) {
 		  case "getRandomHikeTrail":
 		    return "RAN";
+		  case "searchTrail":
+			    return "SEL";	    
 		  default:
 		   return "ANO";
 		}
