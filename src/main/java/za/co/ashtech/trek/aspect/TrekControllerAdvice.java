@@ -27,6 +27,7 @@ public class TrekControllerAdvice {
 		ApiError error = new ApiError(CONSTANTS.ERC002, e.getMessage());
 		
 		this.logErrorResponse(error);
+		logger.error(e.getMessage(), e);
 		
 	    return new ResponseEntity<>(error, HttpStatus.UNSUPPORTED_MEDIA_TYPE);
 	}
@@ -35,6 +36,7 @@ public class TrekControllerAdvice {
 	public ResponseEntity<ApiError> handleBookLogApiException(TrekException e) {
 		
 		this.logErrorResponse(e.getError());
+		logger.error(e.getMessage(), e);
 		
 	    return new ResponseEntity<>(e.getError(),e.getHttpStatus());
 	}
