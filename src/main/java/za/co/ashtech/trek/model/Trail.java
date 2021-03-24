@@ -3,18 +3,24 @@ package za.co.ashtech.trek.model;
 import java.util.Objects;
 
 import javax.validation.constraints.NotNull;
+
 import org.springframework.validation.annotation.Validated;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * Trail
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-03-14T13:33:11.730Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-03-23T19:03:51.552Z[GMT]")
 
 
 public class Trail   {
+  @JsonProperty("id")
+  private String id = null;
+
   @JsonProperty("name")
   private String name = null;
 
@@ -32,6 +38,26 @@ public class Trail   {
 
   @JsonProperty("status")
   private String status = null;
+
+  public Trail id(String id) {
+    this.id = id;
+    return this;
+  }
+
+  /**
+   * Get id
+   * @return id
+   **/
+  @Schema(example = "1", required = true, description = "")
+      @NotNull
+
+    public String getId() {
+    return id;
+  }
+
+  public void setId(String id) {
+    this.id = id;
+  }
 
   public Trail name(String name) {
     this.name = name;
@@ -163,7 +189,8 @@ public class Trail   {
       return false;
     }
     Trail trail = (Trail) o;
-    return Objects.equals(this.name, trail.name) &&
+    return Objects.equals(this.id, trail.id) &&
+        Objects.equals(this.name, trail.name) &&
         Objects.equals(this.location, trail.location) &&
         Objects.equals(this.length, trail.length) &&
         Objects.equals(this.level, trail.level) &&
@@ -173,7 +200,7 @@ public class Trail   {
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, location, length, level, description, status);
+    return Objects.hash(id, name, location, length, level, description, status);
   }
 
   @Override
@@ -181,6 +208,7 @@ public class Trail   {
     StringBuilder sb = new StringBuilder();
     sb.append("class Trail {\n");
     
+    sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    location: ").append(toIndentedString(location)).append("\n");
     sb.append("    length: ").append(toIndentedString(length)).append("\n");

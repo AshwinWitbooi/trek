@@ -3,6 +3,7 @@ package za.co.ashtech.trek.controller;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -46,8 +48,16 @@ public class TrekApiController implements TrekApi {
     }
     
     public ResponseEntity<List<Trail>> searchTrails(@Parameter(in = ParameterIn.PATH, description = "location to search hiking trails for", required=true, schema=@Schema()) @PathVariable("location") String location) throws TrekException{
-    	log.debug("Enter getRandomTrail TrekApiController method");
+    	log.debug("Enter searchTrails TrekApiController method");
         return new ResponseEntity<List<Trail>>(service.searchTrail(location),HttpStatus.OK);
+    }
+    
+    public ResponseEntity<Void> addTrail(@Parameter(in = ParameterIn.DEFAULT, description = "Add hiking trail", schema=@Schema()) @Valid @RequestBody Trail body) throws TrekException{
+    	log.debug("Enter addTrail TrekApiController method");
+    	
+    	service.addTrail(body);
+    	
+        return new ResponseEntity<Void>(HttpStatus.CREATED);
     }
 
 }

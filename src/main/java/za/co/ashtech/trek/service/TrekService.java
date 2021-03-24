@@ -9,4 +9,5 @@ public interface TrekService {
 
 	public Trail getRandomHikeTrail() throws TrekException;
 	public List<Trail> searchTrail(String location) throws TrekException;
+	public void addTrail(Trail trail) throws TrekException;
 }

@@ -52,6 +52,4 @@ import za.co.ashtech.trek.util.TestDataUtil;
 	void getTrailsByLocationTest() throws Exception{
 		assertNotNull(trekDBRepository.findByLocation("Bellville"));
 	}
-
-	
 }

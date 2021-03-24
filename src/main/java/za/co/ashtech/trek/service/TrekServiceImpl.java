@@ -26,7 +26,7 @@ public class TrekServiceImpl implements TrekService {
 		try {
 			List<TrailEntity> trails = IteratorUtils.toList(dbRepository.findAll().iterator());		
 			
-			return TrekUtil.trailEntityTyModel(trails.get(RandomUtils.nextInt(0, trails.size()-1)));
+			return TrekUtil.trailEntityToModel(trails.get(RandomUtils.nextInt(0, trails.size()-1)));
 			
 		} catch (Exception e) {
 			throw new TrekException(CONSTANTS.ERC001, CONSTANTS.ERC001_DESC,HttpStatus.INTERNAL_SERVER_ERROR);
@@ -41,10 +41,10 @@ public class TrekServiceImpl implements TrekService {
 			List<TrailEntity> te = dbRepository.findByLocation(location);
 			
 			if(te != null && !te.isEmpty()) {
-				trails = new ArrayList<Trail>();
+				trails = new ArrayList<>();
 				
 				for(TrailEntity i:te) {
-					trails.add(TrekUtil.trailEntityTyModel(i));
+					trails.add(TrekUtil.trailEntityToModel(i));
 				}
 				
 				return trails;
@@ -57,6 +57,16 @@ public class TrekServiceImpl implements TrekService {
 			throw e;
 		}catch (Exception e) {
 			throw new TrekException(CONSTANTS.ERC003, "Error retrieving hike trails for location",HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
+	@Override
+	public void addTrail(Trail trail) throws TrekException {
+		
+		try {
+			dbRepository.save(TrekUtil.trailModelToEntity(trail));
+		} catch (Exception e) {
+			throw new TrekException(CONSTANTS.ERC004, "Error adding hike trail",HttpStatus.INTERNAL_SERVER_ERROR);		
 		}
 	}
 

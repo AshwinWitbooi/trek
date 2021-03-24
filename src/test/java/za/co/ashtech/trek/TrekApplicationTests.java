@@ -2,7 +2,10 @@ package za.co.ashtech.trek;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
@@ -16,6 +19,11 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import za.co.ashtech.trek.model.Trail;
+import za.co.ashtech.trek.util.TestDataUtil;
+
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @SpringBootTest
 @WebAppConfiguration
@@ -26,6 +34,12 @@ class TrekApplicationTests {
 	@Autowired
 	private WebApplicationContext context;
 	private MockMvc mvc;
+	static String trailName = null;
+	
+	@BeforeAll
+	public static void setUp() {
+		trailName = TestDataUtil.getTrailname();
+	}
 
 
 	@BeforeEach
@@ -59,6 +73,29 @@ class TrekApplicationTests {
 		           .contentType(MediaType.APPLICATION_JSON)
 		           .accept(MediaType.APPLICATION_JSON))
 		           .andExpect(status().isOk()));
+	}
+	
+	@Test
+	@Order(3)
+	/* only applicable for security tests */
+//	@WithMockUser(username = "test_user", password = "test_user")
+	void getAddTrailTest() throws Exception {
+		
+		Trail trail = new Trail();
+		trail.setDescription("Flat road");
+		trail.setLength("8KM");
+		trail.setLevel("Walker");
+		trail.setLocation("Bellville");
+		trail.setName(trailName);
+		trail.setStatus("O");
+		
+		ObjectMapper objectMapper = new ObjectMapper();
+		
+		assertNotNull(mvc.perform(post("/v1/admin/trail")
+					.content(objectMapper.writeValueAsString(trail))
+		           .contentType(MediaType.APPLICATION_JSON)
+		           .accept(MediaType.APPLICATION_JSON))
+		           .andExpect(status().isCreated()));
 	}
 
 }

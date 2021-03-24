@@ -7,8 +7,11 @@ package za.co.ashtech.trek.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import io.swagger.v3.oas.annotations.Operation;
@@ -57,6 +60,21 @@ public interface TrekApi {
         method = RequestMethod.GET)
     ResponseEntity<List<Trail>> searchTrails(@Parameter(in = ParameterIn.PATH, description = "location to search hiking trails for", required=true, schema=@Schema()) @PathVariable("location") String location) throws TrekException;
 
+    @Operation(summary = "add hiking trail", description = "By invoking this API an admin will be able to add a hiking trail ", tags={  })
+    @ApiResponses(value = { 
+        @ApiResponse(responseCode = "201", description = "admin added trail successfully"),
+        
+        @ApiResponse(responseCode = "400", description = "bad input parameter"),
+        
+        @ApiResponse(responseCode = "401", description = "authentication failed"),
+        
+        @ApiResponse(responseCode = "404", description = "item not found."),
+        
+        @ApiResponse(responseCode = "500", description = "error processing request") })
+    @RequestMapping(value = "/v1/admin/trail",
+        consumes = { "application/json" }, 
+        method = RequestMethod.POST)
+    ResponseEntity<Void> addTrail(@Parameter(in = ParameterIn.DEFAULT, description = "Add hiking trail", schema=@Schema()) @Valid @RequestBody Trail body) throws TrekException;
 
 }
 

@@ -79,7 +79,9 @@ public class TxLogAspect {
 		  case "getRandomHikeTrail":
 		    return "RAN";
 		  case "searchTrail":
-			    return "SEL";	    
+			    return "SEL";	  
+		  case "addTrail":
+			    return "ADD";	
 		  default:
 		   return "ANO";
 		}
