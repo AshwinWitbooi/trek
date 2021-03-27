@@ -2,6 +2,8 @@ package za.co.ashtech.trek.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
 import org.apache.commons.collections4.IteratorUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,6 +70,59 @@ public class TrekServiceImpl implements TrekService {
 		} catch (Exception e) {
 			throw new TrekException(CONSTANTS.ERC004, "Error adding hike trail",HttpStatus.INTERNAL_SERVER_ERROR);		
 		}
+	}
+
+	@Override
+	public void editTrail(String id, String name, String value) throws TrekException {
+		
+		try {
+			Optional<TrailEntity> trailEntity = dbRepository.findById(new Long(id));
+			
+			switch(name.toUpperCase()) {
+			
+			  case "NAME":
+				  trailEntity.get().setName(value);
+				  this.updateTrail(trailEntity.get());
+				  break;
+			  case "LOCATION":	  
+				  trailEntity.get().setLocation(value);
+				  this.updateTrail(trailEntity.get());
+				  break;
+			  case "LENGTH":
+				  trailEntity.get().setLength(value);
+				  this.updateTrail(trailEntity.get());
+				  break;
+			  case "LEVEL":
+				  trailEntity.get().setLevel(value);
+				  this.updateTrail(trailEntity.get());
+				  break;
+			  case "DESCRIPTION":	
+				  trailEntity.get().setDecription(value);
+				  this.updateTrail(trailEntity.get());
+				  break;
+			  case "STATUS":
+				  trailEntity.get().setStatus(value);
+				  this.updateTrail(trailEntity.get());
+				  break;
+			  default:
+				  throw new TrekException(CONSTANTS.ERC005, "Invalid id action",HttpStatus.BAD_REQUEST);
+			}
+			
+			
+			
+		} catch (NullPointerException e) {
+			throw new TrekException(CONSTANTS.ERC005, "Unable to update trail. Contact administrator",HttpStatus.BAD_REQUEST);	
+		}catch (NumberFormatException e) {
+			throw new TrekException(CONSTANTS.ERC005, "Invalid id value",HttpStatus.BAD_REQUEST);	
+		}catch (Exception e) {
+			throw new TrekException(CONSTANTS.ERC005, "Unable to update trail. Contact administrator",HttpStatus.BAD_REQUEST);	
+		}
+
+	}
+	
+	/* Method to update trail db record */
+	private void updateTrail(TrailEntity trailEntity) {
+		dbRepository.save(trailEntity);
 	}
 
 }

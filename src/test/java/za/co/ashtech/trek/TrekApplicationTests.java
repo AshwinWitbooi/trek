@@ -2,6 +2,7 @@ package za.co.ashtech.trek;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -79,7 +80,7 @@ class TrekApplicationTests {
 	@Order(3)
 	/* only applicable for security tests */
 //	@WithMockUser(username = "test_user", password = "test_user")
-	void getAddTrailTest() throws Exception {
+	void addTrailTest() throws Exception {
 		
 		Trail trail = new Trail();
 		trail.setDescription("Flat road");
@@ -97,5 +98,19 @@ class TrekApplicationTests {
 		           .accept(MediaType.APPLICATION_JSON))
 		           .andExpect(status().isCreated()));
 	}
+	
+	@Test
+	@Order(4)
+	/* only applicable for security tests */
+//	@WithMockUser(username = "test_user", password = "test_user")
+	void editTrailTest() throws Exception {
+		mvc.perform(patch("/v1/admin/update/trail/1")
+			   .queryParam("name", "location")
+			   .queryParam("value", "new location")
+	           .contentType(MediaType.APPLICATION_JSON)
+	           .accept(MediaType.APPLICATION_JSON))
+	           .andExpect(status().isOk());
+	}
+
 
 }

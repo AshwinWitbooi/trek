@@ -1,6 +1,7 @@
 package za.co.ashtech.trek.db.repository;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.MethodOrderer;
@@ -51,5 +52,17 @@ import za.co.ashtech.trek.util.TestDataUtil;
 	@Order(2) 
 	void getTrailsByLocationTest() throws Exception{
 		assertNotNull(trekDBRepository.findByLocation("Bellville"));
+	}
+	
+	@Test
+	@Order(3) 
+	void editTrailTest() throws Exception{
+		TrailEntity trailEntity = trekDBRepository.findByName(trailName);
+		String updateName = TestDataUtil.getTrailname();
+		trailEntity.setName(updateName);
+		
+		trekDBRepository.save(trailEntity);
+		
+		assertNotNull(trekDBRepository.findByName(updateName));
 	}
 }

@@ -12,5 +12,6 @@ public class CONSTANTS {
 	public static final String ERC003 = "ERC003";
 	public static final String ERC003_DESC = "No results found for location";
 	public static final String ERC004 = "ERC004";
+	public static final String ERC005 = "ERC005";
 	
 }

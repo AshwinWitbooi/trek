@@ -82,6 +82,8 @@ public class TxLogAspect {
 			    return "SEL";	  
 		  case "addTrail":
 			    return "ADD";	
+		  case "editTrail":
+			    return "EDT";
 		  default:
 		   return "ANO";
 		}

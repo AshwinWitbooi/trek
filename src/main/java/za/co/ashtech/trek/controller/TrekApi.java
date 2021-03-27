@@ -8,12 +8,15 @@ package za.co.ashtech.trek.controller;
 import java.util.List;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
@@ -75,6 +78,22 @@ public interface TrekApi {
         consumes = { "application/json" }, 
         method = RequestMethod.POST)
     ResponseEntity<Void> addTrail(@Parameter(in = ParameterIn.DEFAULT, description = "Add hiking trail", schema=@Schema()) @Valid @RequestBody Trail body) throws TrekException;
+
+    @Operation(summary = "edit hiking trail", description = "By invoking this API an admin will be able to edit a hiking trail ", tags={  })
+    @ApiResponses(value = { 
+        @ApiResponse(responseCode = "200", description = "admin trail edited successfully"),
+        
+        @ApiResponse(responseCode = "400", description = "bad input parameter"),
+        
+        @ApiResponse(responseCode = "401", description = "authentication failed"),
+        
+        @ApiResponse(responseCode = "404", description = "item not found."),
+        
+        @ApiResponse(responseCode = "500", description = "error processing request") })
+    @RequestMapping(value = "/v1/admin/update/trail/{id}",
+        method = RequestMethod.PATCH)
+    ResponseEntity<Void> editTrail(@Parameter(in = ParameterIn.PATH, description = "", required=true, schema=@Schema()) @PathVariable("id") String id, @NotNull @Parameter(in = ParameterIn.QUERY, description = "" ,required=true,schema=@Schema(allowableValues={ "name", "location", "length", "level", "description", "status" }
+)) @Valid @RequestParam(value = "name", required = true) String name, @NotNull @Parameter(in = ParameterIn.QUERY, description = "" ,required=true,schema=@Schema()) @Valid @RequestParam(value = "value", required = true) String value) throws TrekException;
 
 }
 

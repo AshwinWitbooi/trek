@@ -12,7 +12,7 @@ public class TrekUtil {
 	public static Trail trailEntityToModel(TrailEntity entity) {
 		Trail trail = new Trail();
 		
-		trail.setId(Integer.toString(entity.getId()));
+		trail.setId(Long.toString(entity.getId()));
 		trail.setDescription(entity.getDecription());
 		trail.setLength(entity.getLength());
 		trail.setLevel(entity.getLevel());
