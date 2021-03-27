@@ -1,6 +1,7 @@
 package za.co.ashtech.trek;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -23,6 +24,7 @@ import org.springframework.web.context.WebApplicationContext;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import za.co.ashtech.trek.model.Trail;
+import za.co.ashtech.trek.service.TrekService;
 import za.co.ashtech.trek.util.TestDataUtil;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -34,6 +36,9 @@ class TrekApplicationTests {
 //	private static final String testPassword ="test_user";
 	@Autowired
 	private WebApplicationContext context;
+	@Autowired
+	TrekService service;
+	
 	private MockMvc mvc;
 	static String trailName = null;
 	
@@ -103,13 +108,23 @@ class TrekApplicationTests {
 	@Order(4)
 	/* only applicable for security tests */
 //	@WithMockUser(username = "test_user", password = "test_user")
-	void editTrailTest() throws Exception {
-		mvc.perform(patch("/v1/admin/update/trail/1")
+	void editTrailTest() throws Exception {	
+		
+		mvc.perform(patch("/v1/admin/update/trail/{id}",service.getRandomHikeTrail().getId())
 			   .queryParam("name", "location")
 			   .queryParam("value", "new location")
 	           .contentType(MediaType.APPLICATION_JSON)
 	           .accept(MediaType.APPLICATION_JSON))
-	           .andExpect(status().isOk());
+	           .andExpect(status().isNoContent());
+	}
+	
+	@Test
+	@Order(4)
+	/* only applicable for security tests */
+//	@WithMockUser(username = "test_user", password = "test_user")
+	void deleteTrailTest() throws Exception {
+		mvc.perform(delete("/v1/admin/del/trail/{id}",service.getRandomHikeTrail().getId()))
+	           .andExpect(status().isNoContent());
 	}
 
 

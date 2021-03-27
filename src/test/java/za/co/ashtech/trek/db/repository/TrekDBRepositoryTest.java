@@ -1,6 +1,7 @@
 package za.co.ashtech.trek.db.repository;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -20,11 +21,13 @@ import za.co.ashtech.trek.util.TestDataUtil;
 	
 	@Autowired
 	TrailDBRepository trekDBRepository;
+	static String updateName = null;
 	static String trailName = null;
 	
 	@BeforeAll
 	public static void setUp() {
 		trailName = TestDataUtil.getTrailname();
+		updateName = TestDataUtil.getTrailname();
 	}
 	
 	@BeforeEach
@@ -58,11 +61,20 @@ import za.co.ashtech.trek.util.TestDataUtil;
 	@Order(3) 
 	void editTrailTest() throws Exception{
 		TrailEntity trailEntity = trekDBRepository.findByName(trailName);
-		String updateName = TestDataUtil.getTrailname();
 		trailEntity.setName(updateName);
 		
 		trekDBRepository.save(trailEntity);
 		
 		assertNotNull(trekDBRepository.findByName(updateName));
+	}
+	
+	@Test
+	@Order(4) 
+	void deleteTrailTest() throws Exception{
+		TrailEntity trailEntity = trekDBRepository.findByName(updateName);
+		
+		trekDBRepository.delete(trailEntity);
+		
+		assertNull(trekDBRepository.findByName(updateName));
 	}
 }

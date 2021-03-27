@@ -81,7 +81,7 @@ public interface TrekApi {
 
     @Operation(summary = "edit hiking trail", description = "By invoking this API an admin will be able to edit a hiking trail ", tags={  })
     @ApiResponses(value = { 
-        @ApiResponse(responseCode = "204", description = "admin trail edited successfully"),
+        @ApiResponse(responseCode = "204", description = "admin edited trail successfully"),
         
         @ApiResponse(responseCode = "400", description = "bad input parameter"),
         
@@ -93,7 +93,22 @@ public interface TrekApi {
     @RequestMapping(value = "/v1/admin/update/trail/{id}",
         method = RequestMethod.PATCH)
     ResponseEntity<Void> editTrail(@Parameter(in = ParameterIn.PATH, description = "", required=true, schema=@Schema()) @PathVariable("id") String id, @NotNull @Parameter(in = ParameterIn.QUERY, description = "" ,required=true,schema=@Schema(allowableValues={ "name", "location", "length", "level", "description", "status" }
-)) @Valid @RequestParam(value = "name", required = true) String name, @NotNull @Parameter(in = ParameterIn.QUERY, description = "" ,required=true,schema=@Schema()) @Valid @RequestParam(value = "value", required = true) String value) throws TrekException;
-
+    								)) @Valid @RequestParam(value = "name", required = true) String name, @NotNull @Parameter(in = ParameterIn.QUERY, description = "" ,required=true,schema=@Schema()) @Valid @RequestParam(value = "value", required = true) String value) throws TrekException;
+    
+    
+    @Operation(summary = "delete hiking trail", description = "By invoking this API an admin will be able to delete a hiking trail ", tags={  })
+    @ApiResponses(value = { 
+        @ApiResponse(responseCode = "204", description = "admin deleted trail successfully"),
+        
+        @ApiResponse(responseCode = "400", description = "bad input parameter"),
+        
+        @ApiResponse(responseCode = "401", description = "authentication failed"),
+        
+        @ApiResponse(responseCode = "404", description = "item not found."),
+        
+        @ApiResponse(responseCode = "500", description = "error processing request") })
+    @RequestMapping(value = "/v1/admin/del/trail/{id}",
+        method = RequestMethod.DELETE)
+    ResponseEntity<Void> deleteTrail(@Parameter(in = ParameterIn.PATH, description = "", required=true, schema=@Schema()) @PathVariable("id") String id) throws TrekException;
 }
 

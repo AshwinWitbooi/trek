@@ -66,4 +66,12 @@ import za.co.ashtech.trek.util.TrekException;
 		service.editTrail(trail.getId(), "location", trailName);
 	}
 	
+	
+	@Test
+	@Order(5) 
+	void deleteTrailTest() throws TrekException{		
+		
+		service.deleteTrail(service.getRandomHikeTrail().getId());
+	}
+	
 }

@@ -108,21 +108,36 @@ public class TrekServiceImpl implements TrekService {
 				  throw new TrekException(CONSTANTS.ERC005, "Invalid id action",HttpStatus.BAD_REQUEST);
 			}
 			
-			
-			
 		} catch (NullPointerException e) {
-			throw new TrekException(CONSTANTS.ERC005, "Unable to update trail. Contact administrator",HttpStatus.BAD_REQUEST);	
+			throw new TrekException(CONSTANTS.ERC005, CONSTANTS.UPDATE_MSG,HttpStatus.BAD_REQUEST);	
 		}catch (NumberFormatException e) {
-			throw new TrekException(CONSTANTS.ERC005, "Invalid id value",HttpStatus.BAD_REQUEST);	
+			throw new TrekException(CONSTANTS.ERC005, CONSTANTS.INVALID_ID_MSG,HttpStatus.BAD_REQUEST);	
 		}catch (Exception e) {
-			throw new TrekException(CONSTANTS.ERC005, "Unable to update trail. Contact administrator",HttpStatus.BAD_REQUEST);	
+			throw new TrekException(CONSTANTS.ERC005, CONSTANTS.UPDATE_MSG,HttpStatus.BAD_REQUEST);	
 		}
 
+	}
+	
+
+	@Override
+	public void deleteTrail(String trailId) throws TrekException {
+		
+		try {
+			dbRepository.delete(dbRepository.findById(new Long(trailId)).get());
+		} catch (NumberFormatException e) {
+			throw new TrekException(CONSTANTS.ERC006, CONSTANTS.INVALID_ID_MSG,HttpStatus.BAD_REQUEST);
+		} catch (NullPointerException e) {
+			throw new TrekException(CONSTANTS.ERC006, CONSTANTS.DELETE_MSG,HttpStatus.BAD_REQUEST);	
+		}catch (Exception e) {
+			throw new TrekException(CONSTANTS.ERC006, CONSTANTS.DELETE_MSG,HttpStatus.BAD_REQUEST);	
+		}
+		
 	}
 	
 	/* Method to update trail db record */
 	private void updateTrail(TrailEntity trailEntity) {
 		dbRepository.save(trailEntity);
 	}
+
 
 }

@@ -64,8 +64,17 @@ public class TrekApiController implements TrekApi {
     
     public ResponseEntity<Void> editTrail(@Parameter(in = ParameterIn.PATH, description = "", required=true, schema=@Schema()) @PathVariable("id") String id,@NotNull @Parameter(in = ParameterIn.QUERY, description = "" ,required=true,schema=@Schema(allowableValues={ "name", "location", "length", "level", "description", "status" }
     										)) @Valid @RequestParam(value = "name", required = true) String name,@NotNull @Parameter(in = ParameterIn.QUERY, description = "" ,required=true,schema=@Schema()) @Valid @RequestParam(value = "value", required = true) String value) throws TrekException {
-        
+    	log.debug("Enter editTrail TrekApiController method");
+    	
     	service.editTrail(id, name, value);
+    	
+        return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+    }
+    
+    public ResponseEntity<Void> deleteTrail(@Parameter(in = ParameterIn.PATH, description = "", required=true, schema=@Schema()) @PathVariable("id") String id) throws TrekException {
+    	log.debug("Enter deleteTrail TrekApiController method");
+    	
+    	service.deleteTrail(id);
     	
         return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
     }
