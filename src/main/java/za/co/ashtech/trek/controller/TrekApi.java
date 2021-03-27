@@ -81,7 +81,7 @@ public interface TrekApi {
 
     @Operation(summary = "edit hiking trail", description = "By invoking this API an admin will be able to edit a hiking trail ", tags={  })
     @ApiResponses(value = { 
-        @ApiResponse(responseCode = "200", description = "admin trail edited successfully"),
+        @ApiResponse(responseCode = "204", description = "admin trail edited successfully"),
         
         @ApiResponse(responseCode = "400", description = "bad input parameter"),
         
