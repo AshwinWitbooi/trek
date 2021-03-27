@@ -10,8 +10,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import za.co.ashtech.trek.db.entity.TrailEntity;
 import za.co.ashtech.trek.model.Trail;
 import za.co.ashtech.trek.util.TestDataUtil;
 import za.co.ashtech.trek.util.TrekException;
