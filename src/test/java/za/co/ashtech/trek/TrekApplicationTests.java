@@ -1,6 +1,7 @@
 package za.co.ashtech.trek;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
@@ -16,6 +17,7 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -24,6 +26,7 @@ import org.springframework.web.context.WebApplicationContext;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import za.co.ashtech.trek.model.Trail;
+import za.co.ashtech.trek.model.User;
 import za.co.ashtech.trek.service.TrekService;
 import za.co.ashtech.trek.util.TestDataUtil;
 
@@ -32,8 +35,8 @@ import za.co.ashtech.trek.util.TestDataUtil;
 @WebAppConfiguration
 class TrekApplicationTests {
 	
-//	private static final String testUsername ="test_user";
-//	private static final String testPassword ="test_user";
+	private static final String testUsername ="test_user";
+	private static final String testPassword ="test_user";
 	@Autowired
 	private WebApplicationContext context;
 	@Autowired
@@ -53,14 +56,14 @@ class TrekApplicationTests {
 		mvc = MockMvcBuilders
 				.webAppContextSetup(context)
 				/* only applicable for security tests */ 
-//				.apply(springSecurity())
+				.apply(springSecurity())
 				.build();
 	}
 	
 	@Test
 	@Order(1)
 	/* only applicable for security tests */
-//	@WithMockUser(username = "test_user", password = "test_user")
+	@WithMockUser(username = testUsername, password = testPassword)
 	void getRandomHikeTrailTest() throws Exception {
 		
 		assertNotNull(mvc.perform(get("/v1/trail/random")
@@ -72,7 +75,7 @@ class TrekApplicationTests {
 	@Test
 	@Order(2)
 	/* only applicable for security tests */
-//	@WithMockUser(username = "test_user", password = "test_user")
+	@WithMockUser(username = testUsername, password = testPassword)
 	void getSearchHikeTrailTest() throws Exception {
 		
 		assertNotNull(mvc.perform(get("/v1/trail/Bellville")
@@ -84,7 +87,7 @@ class TrekApplicationTests {
 	@Test
 	@Order(3)
 	/* only applicable for security tests */
-//	@WithMockUser(username = "test_user", password = "test_user")
+	@WithMockUser(username = testUsername, password = testPassword)
 	void addTrailTest() throws Exception {
 		
 		Trail trail = new Trail();
@@ -107,7 +110,7 @@ class TrekApplicationTests {
 	@Test
 	@Order(4)
 	/* only applicable for security tests */
-//	@WithMockUser(username = "test_user", password = "test_user")
+	@WithMockUser(username = testUsername, password = testPassword)
 	void editTrailTest() throws Exception {	
 		
 		mvc.perform(patch("/v1/admin/update/trail/{id}",service.getRandomHikeTrail().getId())
@@ -119,12 +122,32 @@ class TrekApplicationTests {
 	}
 	
 	@Test
-	@Order(4)
+	@Order(5)
 	/* only applicable for security tests */
-//	@WithMockUser(username = "test_user", password = "test_user")
+	@WithMockUser(username = testUsername, password = testPassword)
 	void deleteTrailTest() throws Exception {
 		mvc.perform(delete("/v1/admin/del/trail/{id}",service.getRandomHikeTrail().getId()))
 	           .andExpect(status().isNoContent());
+	}
+	
+	@Test
+	@Order(6)
+	/* only applicable for security tests */
+	@WithMockUser(username = testUsername, password = testPassword, roles = "ADMIN")
+	void createUserTest() throws Exception {
+		User user = new User();
+		user.setUsername(TestDataUtil.getUsername());
+		user.setPassword("password");
+		user.setConfirmPassword("password");
+		
+		ObjectMapper objectMapper = new ObjectMapper();
+
+		
+		assertNotNull(mvc.perform(post("/v1/admin/user")
+				.content(objectMapper.writeValueAsString(user))
+	           .contentType(MediaType.APPLICATION_JSON)
+	           .accept(MediaType.APPLICATION_JSON))
+	           .andExpect(status().isCreated()));
 	}
 
 

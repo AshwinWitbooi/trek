@@ -1,6 +1,9 @@
 package za.co.ashtech.trek.service;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+
+import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -10,7 +13,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import za.co.ashtech.trek.db.repository.TrailDBRepository;
 import za.co.ashtech.trek.model.Trail;
+import za.co.ashtech.trek.model.User;
 import za.co.ashtech.trek.util.TestDataUtil;
 import za.co.ashtech.trek.util.TrekException;
 
@@ -20,6 +26,8 @@ import za.co.ashtech.trek.util.TrekException;
 	
 	@Autowired
 	TrekService service;	
+	@Autowired
+	TrailDBRepository trekDBRepository;
 	static String trailName = null;
 	
 	@BeforeAll
@@ -56,6 +64,8 @@ import za.co.ashtech.trek.util.TrekException;
 		trail.setStatus("O");
 		
 		service.addTrail(trail);
+		
+		assertNotNull(trekDBRepository.findByName(trailName));
 	}
 	
 	@Test
@@ -64,6 +74,8 @@ import za.co.ashtech.trek.util.TrekException;
 		
 		Trail trail = service.getRandomHikeTrail();
 		service.editTrail(trail.getId(), "location", trailName);
+		
+		assertEquals(trailName, trekDBRepository.findByName(trail.getName()).getLocation());
 	}
 	
 	
@@ -71,7 +83,21 @@ import za.co.ashtech.trek.util.TrekException;
 	@Order(5) 
 	void deleteTrailTest() throws TrekException{		
 		
-		service.deleteTrail(service.getRandomHikeTrail().getId());
+		String id = service.getRandomHikeTrail().getId();
+		service.deleteTrail(id);
+		assertEquals(Optional.empty(),trekDBRepository.findById(new Long(id)));
+	}
+	
+	@Test
+	@Order(6) 
+	void createUserTest() throws TrekException{		
+		
+		User user = new User();
+		user.setUsername(TestDataUtil.getUsername());
+		user.setPassword("password");
+		user.setConfirmPassword("password");
+		
+		service.createUser(user);
 	}
 	
 }

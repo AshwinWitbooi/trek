@@ -3,6 +3,10 @@ package za.co.ashtech.trek.db.repository;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
+import java.security.SecureRandom;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.MethodOrderer;
@@ -11,8 +15,11 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import za.co.ashtech.trek.db.entity.TrailEntity;
+import za.co.ashtech.trek.db.entity.UserEntity;
+import za.co.ashtech.trek.db.entity.UserRoleEntity;
 import za.co.ashtech.trek.util.TestDataUtil;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -21,6 +28,8 @@ import za.co.ashtech.trek.util.TestDataUtil;
 	
 	@Autowired
 	TrailDBRepository trekDBRepository;
+	@Autowired
+	UserDBRepository userDBRepository;
 	static String updateName = null;
 	static String trailName = null;
 	
@@ -74,6 +83,26 @@ import za.co.ashtech.trek.util.TestDataUtil;
 		TrailEntity trailEntity = trekDBRepository.findByName(updateName);
 		
 		trekDBRepository.delete(trailEntity);
+		
+		assertNull(trekDBRepository.findByName(updateName));
+	}
+	
+	@Test
+	@Order(5) 
+	void addUserTest() throws Exception{
+		BCryptPasswordEncoder BCryptPasswordEncoder = new BCryptPasswordEncoder(10, SecureRandom.getInstanceStrong());
+		UserEntity user = new UserEntity();
+		user.setEnabled(new Byte("1"));
+		user.setUsername(TestDataUtil.getUsername());
+		user.setPassword(BCryptPasswordEncoder.encode("ADMIN"));
+		
+		List<UserRoleEntity> roles = new ArrayList<>();
+		UserRoleEntity roleEntity = new UserRoleEntity();
+		roleEntity.setAuthority("ADMIN");
+		roleEntity.setTrekUser(user);
+		user.setTrekRoles(roles);
+		
+		userDBRepository.save(user);
 		
 		assertNull(trekDBRepository.findByName(updateName));
 	}

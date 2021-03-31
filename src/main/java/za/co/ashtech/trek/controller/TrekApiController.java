@@ -22,6 +22,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.Schema;
 import za.co.ashtech.trek.model.Trail;
+import za.co.ashtech.trek.model.User;
 import za.co.ashtech.trek.service.TrekService;
 import za.co.ashtech.trek.util.TrekException;
 
@@ -77,6 +78,13 @@ public class TrekApiController implements TrekApi {
     	service.deleteTrail(id);
     	
         return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+    }
+    
+    public ResponseEntity<Void> createUser(@Parameter(in = ParameterIn.DEFAULT, description = "Create user for system", schema=@Schema()) @Valid @RequestBody User body) throws TrekException {
+       
+    	service.createUser(body);
+    	
+        return new ResponseEntity<Void>(HttpStatus.CREATED);
     }
 
 }

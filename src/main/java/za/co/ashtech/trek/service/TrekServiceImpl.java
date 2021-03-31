@@ -10,8 +10,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import za.co.ashtech.trek.db.entity.TrailEntity;
+import za.co.ashtech.trek.db.entity.UserEntity;
+import za.co.ashtech.trek.db.entity.UserRoleEntity;
 import za.co.ashtech.trek.db.repository.TrailDBRepository;
+import za.co.ashtech.trek.db.repository.UserDBRepository;
 import za.co.ashtech.trek.model.Trail;
+import za.co.ashtech.trek.model.User;
 import za.co.ashtech.trek.util.CONSTANTS;
 import za.co.ashtech.trek.util.TrekException;
 import za.co.ashtech.trek.util.TrekUtil;
@@ -21,6 +25,8 @@ public class TrekServiceImpl implements TrekService {
 	
 	@Autowired
 	private TrailDBRepository dbRepository;
+	@Autowired
+	private UserDBRepository userDBRepository;
 
 	@Override
 	public Trail getRandomHikeTrail() throws TrekException{
@@ -78,34 +84,39 @@ public class TrekServiceImpl implements TrekService {
 		try {
 			Optional<TrailEntity> trailEntity = dbRepository.findById(new Long(id));
 			
-			switch(name.toUpperCase()) {
-			
-			  case "NAME":
-				  trailEntity.get().setName(value);
-				  this.updateTrail(trailEntity.get());
-				  break;
-			  case "LOCATION":	  
-				  trailEntity.get().setLocation(value);
-				  this.updateTrail(trailEntity.get());
-				  break;
-			  case "LENGTH":
-				  trailEntity.get().setLength(value);
-				  this.updateTrail(trailEntity.get());
-				  break;
-			  case "LEVEL":
-				  trailEntity.get().setLevel(value);
-				  this.updateTrail(trailEntity.get());
-				  break;
-			  case "DESCRIPTION":	
-				  trailEntity.get().setDecription(value);
-				  this.updateTrail(trailEntity.get());
-				  break;
-			  case "STATUS":
-				  trailEntity.get().setStatus(value);
-				  this.updateTrail(trailEntity.get());
-				  break;
-			  default:
-				  throw new TrekException(CONSTANTS.ERC005, "Invalid id action",HttpStatus.BAD_REQUEST);
+			if(trailEntity.isPresent()) {
+				switch(name.toUpperCase()) {
+				
+				  case "NAME":
+					  trailEntity.get().setName(value);
+					  this.updateTrail(trailEntity.get());
+					  break;
+				  case "LOCATION":	  
+					  trailEntity.get().setLocation(value);
+					  this.updateTrail(trailEntity.get());
+					  break;
+				  case "LENGTH":
+					  trailEntity.get().setLength(value);
+					  this.updateTrail(trailEntity.get());
+					  break;
+				  case "LEVEL":
+					  trailEntity.get().setLevel(value);
+					  this.updateTrail(trailEntity.get());
+					  break;
+				  case "DESCRIPTION":	
+					  trailEntity.get().setDecription(value);
+					  this.updateTrail(trailEntity.get());
+					  break;
+				  case "STATUS":
+					  trailEntity.get().setStatus(value);
+					  this.updateTrail(trailEntity.get());
+					  break;
+				  default:
+					  throw new TrekException(CONSTANTS.ERC005, "Invalid id action",HttpStatus.BAD_REQUEST);
+				}
+				
+			}else {
+				throw new TrekException(CONSTANTS.ERC005, "No trail found",HttpStatus.BAD_REQUEST);	
 			}
 			
 		} catch (NullPointerException e) {
@@ -137,6 +148,33 @@ public class TrekServiceImpl implements TrekService {
 	/* Method to update trail db record */
 	private void updateTrail(TrailEntity trailEntity) {
 		dbRepository.save(trailEntity);
+	}
+
+	@Override
+	public void createUser(User user) throws TrekException {
+		UserEntity userEntity = new UserEntity();
+		
+		if(user.getPassword().equals(user.getConfirmPassword())) {
+			
+			userEntity.setUsername(user.getUsername());
+			userEntity.setPassword(user.getPassword());
+			userEntity.setEnabled(new Byte("1"));
+			
+			userEntity.setTrekRoles(new ArrayList<>());
+			UserRoleEntity userRoleEntity = new UserRoleEntity();
+			userRoleEntity.setTrekUser(userEntity);
+			userRoleEntity.setAuthority("USER");
+			userEntity.getTrekRoles().add(userRoleEntity);
+			
+			try {
+				userDBRepository.save(userEntity);
+			} catch (Exception e) {
+				throw new TrekException(CONSTANTS.ERC007, CONSTANTS.USER_CREATE_MSG, HttpStatus.INTERNAL_SERVER_ERROR);			
+			}
+			
+		}else{
+			throw new TrekException(CONSTANTS.ERC007, CONSTANTS.PASSOWRDS_MISMATCH, HttpStatus.BAD_REQUEST);
+		}
 	}
 
 

@@ -26,6 +26,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import za.co.ashtech.trek.model.Trail;
+import za.co.ashtech.trek.model.User;
 import za.co.ashtech.trek.util.TrekException;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-03-15T19:56:57.484Z[GMT]")
@@ -110,5 +111,22 @@ public interface TrekApi {
     @RequestMapping(value = "/v1/admin/del/trail/{id}",
         method = RequestMethod.DELETE)
     ResponseEntity<Void> deleteTrail(@Parameter(in = ParameterIn.PATH, description = "", required=true, schema=@Schema()) @PathVariable("id") String id) throws TrekException;
+
+    @Operation(summary = "create user", description = "Create user on system system", tags={  })
+    @ApiResponses(value = { 
+        @ApiResponse(responseCode = "201", description = "user created"),
+        
+        @ApiResponse(responseCode = "400", description = "invalid input, object invalid"),
+        
+        @ApiResponse(responseCode = "401", description = "authentication failed"),
+        
+        @ApiResponse(responseCode = "409", description = "an existing item already exists"),
+        
+        @ApiResponse(responseCode = "500", description = "error processing request") })
+    @RequestMapping(value = "/v1/admin/user",
+        consumes = { "application/json" }, 
+        method = RequestMethod.POST)
+    ResponseEntity<Void> createUser(@Parameter(in = ParameterIn.DEFAULT, description = "Create user for system", schema=@Schema()) @Valid @RequestBody User body) throws TrekException;
+
 }
 

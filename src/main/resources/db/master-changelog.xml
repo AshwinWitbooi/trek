@@ -7,5 +7,7 @@
     
     <include file="db/trail-changelog.xml"/>
     <include file="db/tx_log-changelog.xml"/>
+    <include file="db/user-changelog.xml"/>
+    <include file="db/user-roles-changelog.xml"/>
     
 </databaseChangeLog>

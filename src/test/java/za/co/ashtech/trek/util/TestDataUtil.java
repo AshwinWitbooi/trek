@@ -13,6 +13,10 @@ public class TestDataUtil {
 		return RandomStringUtils.randomAlphabetic(8)+" Trail";
 	}
 	
+	public static String getUsername() {
+		return RandomStringUtils.randomAlphabetic(8)+"@test.co.za";
+	}
+	
 	public static String getJSONString(Object obj) throws JsonProcessingException {
 		ObjectMapper objectMapper = new ObjectMapper();		
 		
