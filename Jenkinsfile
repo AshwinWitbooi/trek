@@ -63,7 +63,7 @@ pipeline {
         }
 		stage('Run Container') {
         	steps {
-	            bat 'docker run -e DB_HOST=%DB_HOST% -v C:/Users/Ashwin/dev_tools/app_logs/prod:/var/app_logs/trek -d --name %APP%  -p 8080:8443 -t %APP%'
+	            bat 'docker run -e DB_HOST=%DB_HOST% -v C:/Users/Ashwin/dev_tools/app_logs/prod:/var/app_logs/trek -d --name %APP%  -p 8443:8443 -t %APP%'
 	        }
         }
     }
